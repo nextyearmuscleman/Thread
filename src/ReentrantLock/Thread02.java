@@ -41,6 +41,9 @@ public class Thread02 {
          */
         boolean locked = false;
         try {
+            /**
+            没有写加锁之后的处理逻辑，这个仅是尝试获取锁，等待5s之后执行后面的语句。不影响执行。
+            */
             locked = lock.tryLock(5,TimeUnit.SECONDS);
             System.out.println("线程2----"+locked);
         } catch (InterruptedException e) {
