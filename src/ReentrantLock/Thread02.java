@@ -17,10 +17,11 @@ import java.util.concurrent.locks.ReentrantLock;
  4中加锁方法的总结：
  假如线程A和线程B使用同一个锁LOCK，此时线程A首先获取到锁LOCK.lock()，并且始终持有不释放。如果此时B要去获取锁，有四种方式：
 
-    1、LOCK.lock(): 此方式会始终处于等待中，即使调用B.interrupt()也不能中断，除非线程A调用LOCK.unlock()释放锁。
+    1、LOCK.lock(): 此方式会始终处于等待中（一直会阻塞住，不能被打断），即使调用B.interrupt()也不能中断，除非线程A调用LOCK.unlock()释放锁。
     2、LOCK.lockInterruptibly(): 此方式会等待，但当调用B.interrupt()会被中断等待，并抛出InterruptedException异常，
     否则会与lock()一样始终处于等待中，直到线程A释放锁。
-    3、LOCK.tryLock(): 该处不会等待，获取不到锁并直接返回false，去执行下面的逻辑。
+    3、LOCK.tryLock(): 该处不会等待，获取不到锁并直接返回false，去执行下面的逻辑。不会等待，立即返回结果，根据是否获取到锁
+    执行相应的逻辑。
     4、LOCK.tryLock(10, TimeUnit.SECONDS)：该处会在10秒时间内处于等待中，但当调用B.interrupt()会被中断等待，
     并抛出InterruptedException。10秒时间内如果线程A释放锁，会获取到锁并返回true，否则10秒过后会获取不到锁并返回
     false，去执行下面的逻辑。
