@@ -53,5 +53,6 @@ public class Study_QuickSort {
         int[] a={1,4,8,-4,-12,10};
         quick_sort(a,0,a.length-1);
         System.out.println(Arrays.toString(a));
+
     }
 }
