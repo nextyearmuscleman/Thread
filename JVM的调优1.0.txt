@@ -1,4 +1,4 @@
-![](https://github.com/nextyearmuscleman/Thread/raw/master/picture/%E5%A0%86%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png)
+Java堆内存结构--->/Thread/picture/堆内存结构
 1、GC算法：
 	1.1怎么定义垃圾
 		对象在之后不会被再次使用，不能表述为没有引用。
