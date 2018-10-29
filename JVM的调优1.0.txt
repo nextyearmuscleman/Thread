@@ -1,0 +1,53 @@
+1、GC算法：
+	1.1怎么定义垃圾
+		对象在之后不会被再次使用，不能表述为没有引用。
+		Test：	String s = new String("s");
+						s = null;
+				之前的s对象就变成了垃圾。
+
+	1.2垃圾互相引用：
+		同为垃圾的两个对象之间互相引用，或者更多变成垃圾环形引用
+
+	1.3垃圾确定的方法
+		>引用计数：会导致---垃圾互相引用
+		>正向可达：从roots殷天能够到达对象，在main()里面创建的对象可以作为roots
+		
+
+	1.4垃圾收集算法
+		> Mark-Sweep标记-清除：将可以回收的对象进行标记，之后将其清除，
+				缺点：导致内存的不连续，内存产生较多的碎片
+		> Copying：将内存的一半拿出来作为每次的可用空间，效率较多，但是浪费内存，
+			因此这种垃圾收集的方法用在新生代中。
+		> Mark-Compact：用于老年代
+
+	1.5 JVM采用分代算法：
+			Young + Tenured
+
+	1.6 Java对象的分配
+			>栈上分配：-XX:DoEscapeAnalysis(JDK1.8默认开启)开启逃逸分析，而是把对象分配在栈上。对象没有分配在堆上。	
+				优势在于：Java中调用方法都是在栈上的栈帧区间，当弹出栈帧的时候在里面的对象也就消失了，不需要GC。
+
+			> 线程本地分配(Thread Local Allocation BUffer)TLAB:每个线程此时是在Eden中申请空间并再次分配对象。多线程的情况下不冲突，
+
+			>老年代：对象特别大的时候，直接放到这个地方
+
+	1.7：-XX:+DoEscapeAnalysis -XX:+EliminateAllocati-->开启逃逸分析，在栈上分配对象
+	-XX:+UseTLAB-->开启线程本地分配，在Eden中分配
+	 -XX:+PrintGC-->打印GC的信息
+
+	1.8：JVM参数
+		> -Xss---栈的大小
+		> -Xms---堆的初始值（设置其==-Xmx；不然-Xms256M；-Xmx1g;当使用到256M的时候就进行GC，其实可以使用到1g，gc的效率很低）
+		> -Xmx---堆的最大值
+		> -Xmn---堆的Young大小
+		> -XX:+HeapDumpOnOutMemoryError--当出现OOM的时候抛出错误
+		> -XX:+HeapDumpPath=D:\tmp\jvm.dump---抛出的路径
+	
+	1.9Tomcat的调优
+		在/bin/catalina.bat下 set JAVA-OPT:
+			-Xms4g
+			-Xmx4g
+			-Xss512k
+
+
+			
